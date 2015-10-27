@@ -39,7 +39,7 @@ Next, open and edit your gulpfile.js:
 ```javascript
 // Load Laravel elixir
 var Elixir = require('laravel-elixir');
-// Load elixir busting, this append a new task to Elixir called "busting"
+// Load elixir busting, this append a new Elixir task called "busting"
 require('elixir-busting');
 
 // Override elixir configuration
@@ -47,9 +47,6 @@ var config = Elixir.config;
 
 // Change your assets path
 config.assetsPath = './public';
-
-// Override "builderFolder" with empty, in order to avoid versioned files created in a new folder
-config.versioning.buildFolder = '';
 
 Elixir(function(mix) {
     // Instead used a mix.version() task, use a mix.busting() task
@@ -112,9 +109,9 @@ Now you can use your new versioned file in your script tag, for example:
 <script src="js/user-9ba1e9e15n.js"></script>
 ```
 
-But that is totally a bad practice, because every time that you execute **gulp** command you will get a new file names, so you will need to change all script and style tags to point to the new versioned file, so that is not an good solution. Instead that we going to use an php elixir function, that will set the correct versioned file without effort :).
+But that is totally a bad practice, because every time that you execute **gulp** command you will get a new file names, so you will need to change all script and style tags to point to the new versioned file, so that is not an good solution. Instead that we going to use an PHP elixir function, that will set the correct versioned file without effort :).
 
-Php elixir function should looks like this:
+PHP elixir function should looks like this:
 
 ```php
 /**
@@ -141,6 +138,9 @@ function elixir($file)
 }
 ```
 
+**Note**: Add PHP elixir function to your general php file, something like utils.php, functions.php or another else and be sure to include it in your php files where you want to use it.
+
+
 Now lets request our resource using **elixir** function:
 
 ```html
@@ -148,6 +148,7 @@ Now lets request our resource using **elixir** function:
 <script src="<?php echo elixir('js/user.js'); ?>"></script>
 
 ```
+
 
 So after php was intepreted you will see an output like this:
 
@@ -157,7 +158,8 @@ So after php was intepreted you will see an output like this:
 
 ```
 
-As you can see, you requested the original resource file **js/user.js**, but you got a versioned file **js/user-9ba1e9e15n.js**, this is because php elixir function read the rev-manifest.json file to provide to you the versioned file name and avoid that you need to change the src attribute value after every gulp command.
+
+As you can see, you requested the original resource file **js/user.js**, but you got a versioned file **js/user-9ba1e9e15n.js**, this is because PHP elixir function read the rev-manifest.json file to provide to you the versioned file name and avoid that you need to change the src attribute value after every gulp command.
 
 After every code release, you will be sure that browser cache problems are gone.
 
