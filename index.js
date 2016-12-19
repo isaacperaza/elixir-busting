@@ -8,6 +8,7 @@ var vinylPaths = require('vinyl-paths');
 var parsePath  = require('parse-filepath');
 var publicPath  = Elixir.config.publicPath;
 var revReplace = require('gulp-rev-replace');
+var config = Elixir.config;
 
 // Override "builderFolder" with empty, in order to avoid versioned files created in a new folder
 config.versioning.buildFolder = '';
