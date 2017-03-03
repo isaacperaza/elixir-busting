@@ -6,7 +6,6 @@ var rev = require('gulp-rev');
 var Elixir = require('laravel-elixir');
 var vinylPaths = require('vinyl-paths');
 var parsePath  = require('parse-filepath');
-var publicPath  = Elixir.config.publicPath;
 var revReplace = require('gulp-rev-replace');
 var config = Elixir.config;
 
@@ -40,10 +39,10 @@ Elixir.extend('busting', function(src, buildPath) {
 
         // We need to remove the publicPath from the output base to get the
         // correct prefix path.
-        var filePathPrefix = paths.output.baseDir.replace(publicPath, '') + '/';
+        var filePathPrefix = paths.output.baseDir.replace(config.publicPath, '') + '/';
 
         return (
-            gulp.src(paths.src.path, { base: './' + publicPath })
+            gulp.src(paths.src.path, { base: './' + config.publicPath })
                 .pipe(rev())
                 .pipe(revReplace({prefix: filePathPrefix}))
                 .pipe(gulp.dest(paths.output.baseDir))
@@ -122,7 +121,7 @@ var copyMaps = function(src, buildPath) {
                 .forEach(function(file) {
                     // We will loop over this files array, and
                     // copy each map to the build directory.
-                    var map = file.replace(publicPath, buildPath);
+                    var map = file.replace(config.publicPath, buildPath);
 
                     gulp.src(file + '.map').pipe(gulp.dest(parsePath(map).dirname));
                 });
